@@ -1,0 +1,11 @@
+{
+	"manifest_version": 3,
+	"name": "Kosik.cz ceny",
+	"version": "1.0.1",
+
+	"description": "Allows to track current prices of products on Kosik.cz",
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"host_permissions": ["https://developer.chrome.com/*"]
+}
