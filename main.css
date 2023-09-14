@@ -1,6 +1,7 @@
 :root {
 	--black: #000000;
 	--gray: #484848d3;
+    --light-gray: #99999980;
 }
 
 @font-face {
@@ -36,6 +37,7 @@ html {
 body{
     border-radius: 10px;
     padding: 1em;
+    padding-bottom: .5em;
     margin: 0;
 }
 
@@ -44,6 +46,8 @@ h1 {
 	font-weight: 700;
 	font-size: 1.5rem;
 	margin-bottom: 1em;
+    margin-top: 0;
+    text-align: center;
 }
 
 .prices {
@@ -56,10 +60,16 @@ h1 {
 }
 
 .product-box {
-	border-bottom: solid var(--black) 1px;
+	border-bottom:  var(--light-gray) 1px dashed;
 	margin-bottom: 1em;
     display: block;
     margin-right: 1em;
+}
+
+.product-box:last-child{
+
+    border-bottom: none;
+
 }
 
 .product-name {
@@ -79,4 +89,17 @@ h1 {
 
 .product-price {
 	font-weight: 700;
+}
+
+footer{
+
+    font-family: RobotoMono;
+    font-size: .6rem;
+    font-weight: 300;
+    text-align: center;
+    color: var(--gray);
+    margin-top: 2em;
+    margin-bottom: 0;
+    border-top: solid var(--black) 1px;
+    padding: 0;
 }
