@@ -2,6 +2,7 @@
 	--black: #000000;
 	--gray: #484848d3;
 	--light-gray: #99999980;
+	--dark-white: #ffffff ;
 }
 
 @font-face {
@@ -71,7 +72,7 @@ h1 {
 	text-decoration: none;
 	color: var(--gray);
 	cursor: pointer;
-	transition: color 0.5s, font-weight 0.5s, text-decoration 1s;
+	transition: color 0.5s, font-weight 0s, text-decoration 1s;
 	font-weight: 400;
 }
 
@@ -79,8 +80,9 @@ h1 {
 	font-weight: 600;
 	color: var(--black);
 	text-decoration: underline;
-	transition: color 0.25s, font-weight 0.25s, text-decoration 0.5s;
+	transition: color 0.5s, font-weight 0s, text-decoration 0.5s;
 }
+
 
 .product-priceBox{
 
@@ -92,9 +94,32 @@ h1 {
 
 .product-removeBtn{
 
-	margin: 1em;
-	padding: 0 .5em;
+	appearance: none;
+	margin-right: .5em;
+	background-color: var(--dark-white);
+	border-radius: 2px;
+	border: 1px solid;
+	border-color: var(--light-gray);
+	cursor: pointer;
+	transform: translateX(0px) translateY(0px);
+	transition: transform .5s, box-shadow .5s, border-color 0.5s;
+	box-shadow: 0px 0px 0px 0px var(--light-gray);
+	/*box-shadow: 5px 5px 1px 1px var(--gray);*/
+	
+}
 
+.product-removeBtn:hover{
+
+	transition: transform .5s, box-shadow .5s;
+	transform: translateX(-5px) translateY(-5px);
+	box-shadow: 3px 3px 1px 1px var(--light-gray);
+
+}
+
+.product-removeBtn:focus{
+
+	border-color: var(--black);
+	transition: border-color .5s;
 }
 
 .product-price {
