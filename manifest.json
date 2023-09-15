@@ -7,9 +7,13 @@
 	"action": {
 		"default_popup": "popup.html"
 	},
-	"permissions": [
-		"storage"
-	],
-	"host_permissions": ["https://developer.chrome.com/*"]
-
+	"permissions": ["activeTab"],
+	"host_permissions": ["https://developer.chrome.com/*"],
+	"content_scripts": [
+		{
+			"matches": ["https://www.rohlik.cz/*"],
+			"js": ["content.js"],
+			"css": ["content.css"]
+		}
+	]
 }

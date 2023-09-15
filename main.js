@@ -36,6 +36,7 @@ function generateProduct(url, ix) {
 				productPrice.textContent = priceInput.textContent;
 				priceBox.appendChild(productPrice);
 
+
 				let removeButton = document.createElement('button');
 				removeButton.classList.add('product-removeBtn');
 				removeButton.textContent = '-';

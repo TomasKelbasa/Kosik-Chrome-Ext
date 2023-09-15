@@ -66,6 +66,7 @@ h1 {
 
 .product-box:last-child {
 	border-bottom: none;
+	margin-bottom: 0;
 }
 
 .product-name {
