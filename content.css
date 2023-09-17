@@ -1,15 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
 .addToListBtn {
 	position: fixed;
-	top: 1em;
+	top: 50%;
 	left: 1em;
 	background-color: black;
 	color: white;
-	padding: 2em;
+	padding: 1.5em;
 	z-index: 1001;
 	height: auto;
 	line-height: normal;
 	border: 1px solid white;
 	transition: 1s;
+	font-family: 'Roboto Mono', monospace;
 }
 
 .addToListBtn:hover {

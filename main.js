@@ -1,5 +1,5 @@
 function generateProduct(url, ix) {
-	if (url !== null) {
+	if (url != null) {
 		fetch(url)
 			.then((response) => response.text())
 			.then((data) => {
@@ -45,39 +45,61 @@ function generateProduct(url, ix) {
 					removeButton.classList.add('product-removeBtn');
 					removeButton.textContent = '-';
 					removeButton.addEventListener('click', (ab) => {
+						loadURLList((urlList) => {
+							urlList[ix] = 'X';
+							saveURLList(urlList);
+						});
 						const elementToRemove = document.querySelector(
 							`[product-index="${ix}"]`
 						);
 						if (elementToRemove) {
 							elementToRemove.remove();
 						}
-						urlList[ix] = null;
 					});
 					priceBox.appendChild(removeButton);
 					newDiv.appendChild(priceBox);
 					document.querySelector('.prices').appendChild(newDiv);
 				}
 			})
-			.catch((error) => console.error(error));
+			.catch((error) => console.error(url));
 	}
 }
 
-let urlList = [
-	'https://www.rohlik.cz/1351609-royal-crown-cola-classic',
-	'https://www.rohlik.cz/1367691-pernerka-mouka-psenicna-polohruba',
-	'https://www.rohlik.cz/1302745-lindt-excellence-horka-cokolada-s-morskou-soli',
-	'https://www.rohlik.cz/1342937-bumbu-original-craft',
-	'https://www.rohlik.cz/1351609-royal-crown-cola-classic',
-	'https://www.rohlik.cz/1367691-pernerka-mouka-psenicna-polohruba',
-	'https://www.rohlik.cz/1302745-lindt-excellence-horka-cokolada-s-morskou-soli',
-	'https://www.rohlik.cz/1342937-bumbu-original-craft',
-	'https://www.rohlik.cz/1351609-royal-crown-cola-classic',
-	'https://www.rohlik.cz/1367691-pernerka-mouka-psenicna-polohruba',
-	'https://www.rohlik.cz/1302745-lindt-excellence-horka-cokolada-s-morskou-soli',
-	'https://www.rohlik.cz/1342937-bumbu-original-craft',
-	'https://www.rohlik.cz/1407202-royal-crown-cola-no-sugar-plech',
-];
-
-document.addEventListener('DOMContentLoaded', () => {
-	urlList.map((url, ix) => generateProduct(url, ix));
+window.addEventListener('DOMContentLoaded', (event) => {
+	loadURLList((ul) => {
+		console.log('Rohlik-Chrome-Ext: Loaded URLs: ');
+		console.log(ul);
+		if (Array.isArray(ul)) {
+			ul = ul.filter((el) => el != null && el != 'null' && el != 'X');
+			saveURLList(ul);
+			ul.map((url, ix) => {
+				if (url != 'VOID') {
+					generateProduct(url, ix);
+				}
+			});
+		}
+	});
 });
+
+function saveURLList(urlList) {
+	chrome.storage.sync.set({ myURLs: urlList }, function () {
+		if (chrome.runtime.lastError) {
+			console.error('Chyba při ukládání dat: ' + chrome.runtime.lastError);
+		} else {
+			console.log('Seznam URL adres byl uložen.');
+		}
+	});
+}
+
+function loadURLList(callback) {
+	chrome.storage.sync.get('myURLs', function (data) {
+		if (chrome.runtime.lastError) {
+			console.error('Chyba při načítání dat: ' + chrome.runtime.lastError);
+			callback([]);
+		} else {
+			const urlList = data.myURLs || [];
+			const urlStrings = urlList.map((url) => String(url));
+			callback(urlStrings);
+		}
+	});
+}
