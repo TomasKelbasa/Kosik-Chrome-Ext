@@ -1,6 +1,6 @@
-function generateProduct(url, ix) {
+async function generateProduct(url, ix) {
 	if (url != null) {
-		fetch(url)
+		await fetch(url)
 			.then((response) => response.text())
 			.then((data) => {
 				//converts only body of fetched HTML to HTML
@@ -82,8 +82,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		console.log(ul);
 		if (Array.isArray(ul)) {
 			ul = ul.filter((el) => el != null && el != 'null' && el != 'X');
-			//saveURLList(ul);
-			generateProducts(ul, () => {
+			saveURLList(ul);
+			generateProducts(ul, async () => {
 				let parentN = document.querySelector('.prices');
 
 				let divs = Array.from(parentN.children);
