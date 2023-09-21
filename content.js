@@ -21,7 +21,12 @@ function loadURLList(callback) {
 	});
 }
 
-window.addEventListener('DOMContentLoaded', injectButton);
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', injectButton());
+} else {
+	injectButton();
+}
+
 window.addEventListener('click', injectButton);
 
 function injectButton(event) {
@@ -32,15 +37,30 @@ function injectButton(event) {
 			!document.querySelector('.addToListBtn')
 		) {
 			let btn = document.createElement('button');
-			btn.textContent = 'add to list';
+			loadURLList((urlList) => {
+				if (Array.isArray(urlList)) {
+					let newUrl = window.location.href.split('?')[0];
+					if (!urlList.includes(newUrl)) {
+						btn.classList.remove('warning');
+						btn.textContent = 'add to list';
+					} else {
+						btn.classList.add('warning');
+						btn.textContent = 'already on the list';
+					}
+				}
+			});
 			btn.classList.add('addToListBtn');
 			btn.addEventListener('click', () => {
 				loadURLList((urlList) => {
 					if (Array.isArray(urlList)) {
 						let newUrl = window.location.href.split('?')[0];
 						if (!urlList.includes(newUrl)) {
+							btn.classList.add('warning');
+							btn.textContent = 'added on the list';
+
 							urlList.push(newUrl);
 							saveURLList(urlList);
+						} else {
 						}
 					}
 					console.log(urlList);

@@ -13,11 +13,23 @@
 	border: 1px solid white;
 	transition: 1s;
 	font-family: 'Roboto Mono', monospace;
+	width: fit-content;
+	text-align: center;
 }
 
-.addToListBtn:hover {
+.addToListBtn:not(.warning):hover {
 	background-color: white;
 	color: black;
 	border: 1px solid black;
 	transition: 1s;
 }
+
+.addToListBtn.warning {
+	transition: 1s;
+	background-color: rgb(22, 157, 22);
+}
+/*
+.addToListBtn.warning:hover {
+	background-color: rgb(204, 15, 15);
+}
+*/
