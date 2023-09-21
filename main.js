@@ -65,17 +65,42 @@ function generateProduct(url, ix) {
 	}
 }
 
+async function generateProducts(products, callback) {
+	let promises = products.map(async (url, ix) => {
+		if (url != 'VOID') {
+			await generateProduct(url, ix);
+		}
+	});
+
+	await Promise.all(promises);
+	callback();
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
 	loadURLList((ul) => {
 		console.log('Rohlik-Chrome-Ext: Loaded URLs: ');
 		console.log(ul);
 		if (Array.isArray(ul)) {
 			ul = ul.filter((el) => el != null && el != 'null' && el != 'X');
-			saveURLList(ul);
-			ul.map((url, ix) => {
-				if (url != 'VOID') {
-					generateProduct(url, ix);
-				}
+			//saveURLList(ul);
+			generateProducts(ul, () => {
+				let parentN = document.querySelector('.prices');
+
+				let divs = Array.from(parentN.children);
+
+				divs.sort((a, b) => {
+					let ixA = parseInt(a.getAttribute('product-index'));
+					let ixB = parseInt(b.getAttribute('product-index'));
+					return ixA - ixB;
+				});
+
+				console.log('sorted' + divs);
+
+				parentN.innerHTML = '';
+
+				divs.forEach((div) => {
+					parentN.appendChild(div);
+				});
 			});
 		}
 	});
@@ -91,8 +116,8 @@ function saveURLList(urlList) {
 	});
 }
 
-function loadURLList(callback) {
-	chrome.storage.sync.get('myURLs', function (data) {
+async function loadURLList(callback) {
+	await chrome.storage.sync.get('myURLs', function (data) {
 		if (chrome.runtime.lastError) {
 			console.error('Chyba při načítání dat: ' + chrome.runtime.lastError);
 			callback([]);
