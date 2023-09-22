@@ -33,7 +33,8 @@ function injectButton(event) {
 	// Tato funkce se spustí při změně URL v historii prohlížeče
 	setTimeout(function () {
 		if (
-			this.document.querySelector('#productDetail') &&
+			document.querySelector('#productDetail') &&
+			document.querySelector('#productDetail h2') &&
 			!document.querySelector('.addToListBtn')
 		) {
 			let btn = document.createElement('button');

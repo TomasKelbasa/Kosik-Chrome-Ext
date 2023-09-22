@@ -8,17 +8,18 @@ async function generateProduct(url, ix) {
 					data.split('<body>')[1],
 					'text/html'
 				);
-				if (
-					dc.querySelector('[data-test="product-price"') &&
-					dc.querySelector('h2') &&
-					dc.querySelector('.detailQuantity')
-				) {
+				if (dc.querySelector('h2') && dc.querySelector('.detailQuantity')) {
 					let priceInput = dc.querySelector('[data-test="product-price"');
-					if (priceInput.querySelector('span') !== null) {
-						priceInput.removeChild(priceInput.querySelector('span'));
+					if (priceInput) {
+						let priceInput = dc.querySelector('[data-test="product-price"');
+						if (priceInput.querySelector('span') !== null) {
+							priceInput.removeChild(priceInput.querySelector('span'));
+						}
 					}
 
 					let nameInput = dc.querySelector('h2');
+					let brandInput = nameInput.querySelector('.iscxvd');
+					nameInput.querySelector('.iscxvd')?.remove();
 
 					let detailInput = dc.querySelector('.detailQuantity');
 
@@ -30,15 +31,20 @@ async function generateProduct(url, ix) {
 					productName.className = 'product-name';
 					productName.href = url;
 					productName.target = '_blank';
-					newDiv.appendChild(productName);
-					newDiv.querySelector('.product-name').textContent =
+					productName.textContent =
 						nameInput.textContent + ' - ' + detailInput?.textContent;
+
+					newDiv.appendChild(productName);
 
 					let priceBox = document.createElement('div');
 					priceBox.classList.add('product-priceBox');
+
 					let productPrice = document.createElement('p');
 					productPrice.className = 'product-price';
-					productPrice.textContent = priceInput.textContent;
+
+					if (priceInput)
+						productPrice.textContent = priceInput.textContent.trim();
+					else productPrice.textContent = 'currently unavailable';
 					priceBox.appendChild(productPrice);
 
 					let removeButton = document.createElement('button');
@@ -56,12 +62,14 @@ async function generateProduct(url, ix) {
 							elementToRemove.remove();
 						}
 					});
+
 					priceBox.appendChild(removeButton);
 					newDiv.appendChild(priceBox);
 					productsEl.appendChild(newDiv);
+				} else {
 				}
 			})
-			.catch((error) => console.error(url));
+			.catch((error) => console.error(error));
 	}
 }
 
