@@ -58,12 +58,14 @@ async function generateProduct(url, ix) {
 					});
 					priceBox.appendChild(removeButton);
 					newDiv.appendChild(priceBox);
-					document.querySelector('.prices').appendChild(newDiv);
+					productsEl.appendChild(newDiv);
 				}
 			})
 			.catch((error) => console.error(url));
 	}
 }
+
+let productsEl = document.createElement('div');
 
 async function generateProducts(products, callback) {
 	let promises = products.map(async (url, ix) => {
@@ -86,7 +88,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			generateProducts(ul, async () => {
 				let parentN = document.querySelector('.prices');
 
-				let divs = Array.from(parentN.children);
+				let divs = Array.from(productsEl.children);
 
 				divs.sort((a, b) => {
 					let ixA = parseInt(a.getAttribute('product-index'));
