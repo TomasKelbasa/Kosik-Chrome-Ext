@@ -3,6 +3,7 @@ async function generateProduct(url, ix) {
 		await fetch(url)
 			.then((response) => response.text())
 			.then((data) => {
+				
 				//converts only body of fetched HTML to HTML
 				let dc = new DOMParser().parseFromString(
 					data.split('<body>')[1],
