@@ -11,14 +11,15 @@ async function generateProduct(url, ix) {
 				);
 				dc = dc.querySelector("#productDetail");
 				if (dc.querySelector('h2') && dc.querySelector('.detailQuantity')) {
-					let priceInput = dc.querySelector('[data-test="product-price"');
+					let priceInput = dc.querySelector('[data-test="product-price"]');
+					let inSale = false;
 					if (priceInput) {
-						let priceInput = dc.querySelector('[data-test="product-price"');
+						let priceInput = dc.querySelector('[data-test="product-price"]');
+						inSale = Boolean(priceInput.classList.contains("actionPrice"));
 						if (priceInput.querySelector('span') !== null) {
 							priceInput.removeChild(priceInput.querySelector('span'));
 						}
 					}
-					let inSale = Boolean(priceInput.classList.contains("actionPrice"));
 					let nameInput = dc.querySelector('h2');
 					let brandInput = nameInput.querySelector('.iscxvd');
 					nameInput.querySelector('.iscxvd')?.remove();
