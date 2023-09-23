@@ -1,7 +1,7 @@
 # Rohlik-Chrome-Extension
 
 ## About
-Web scraping extension created for Chrome which allows you to view current prices of products listed on https://rohlik.cz/ in one small popup.
+Web scraping extension created for Chrome which allows you to view current prices of products listed on [rohlik.cz](https://rohlik.cz/) in one small popup.
 
 Popup looks currently like this:
 
@@ -10,5 +10,9 @@ Popup looks currently like this:
 
 ## How to use it
 
-On rohlik.cz search a product you would like to add on the list. After you visit the page with your desired item, there should be a new button "add to the list". Click on it.
+### Adding new product
+On [rohlik.cz](https://rohlik.cz/) search a product you would like to add on the list. After you visit the page with your desired item, there should be a new button "add to the list". Click on it.
 If the button isn't there, try reloading the page. That should fix it.
+
+### Removing a product
+In the popup just click on the minus button next to the product price - that will remove the product from the list permanently. Of course you can add it back if you want to.
