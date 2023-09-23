@@ -52,9 +52,12 @@ h1 {
 	font-family: RobotoMono;
 	color: var(--black);
 	display: block;
-	height: 200px;
-	max-height: 200px;
+	min-height: 100px;
+	height: fit-content;
+	max-height: 300px;
 	overflow-y: scroll;
+	text-align: center;
+	scroll-behavior: smooth;
 }
 
 .product-box {
@@ -62,6 +65,7 @@ h1 {
 	margin-bottom: 1em;
 	display: block;
 	margin-right: 1em;
+	text-align: left;
 }
 
 .product-box:last-child {
@@ -102,18 +106,17 @@ h1 {
 	border: 1px solid;
 	border-color: var(--light-gray);
 	cursor: pointer;
-	transform: translateX(0px) translateY(0px);
-	transition: transform .5s, box-shadow .5s, border-color 0.5s;
-	box-shadow: 0px 0px 0px 0px var(--light-gray);
-	/*box-shadow: 5px 5px 1px 1px var(--gray);*/
+	scale: 1;
+	transition: scale 0.5s;
+
 	
 }
 
 .product-removeBtn:hover{
 
-	transition: transform .5s, box-shadow .5s;
-	transform: translateX(-5px) translateY(-5px);
-	box-shadow: 3px 3px 1px 1px var(--light-gray);
+	transition: scale 0.5s;
+	scale: 1.2;
+
 
 }
 
@@ -121,11 +124,22 @@ h1 {
 
 	border-color: var(--black);
 	transition: border-color .5s;
+	
 }
 
 .product-price {
 	font-weight: 700;
 	flex: 1;
+}
+
+.product-price.inSale{
+
+	font-weight: 1000;
+}
+
+.product-price.inSale del{
+
+	font-weight: 500;
 }
 
 footer {

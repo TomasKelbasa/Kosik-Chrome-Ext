@@ -21,8 +21,10 @@ function loadURLList(callback) {
 	});
 }
 
+let lastUrl = null;
+
 if (document.readyState === 'loading') {
-	document.addEventListener('DOMContentLoaded', injectButton());
+	document.addEventListener('DOMContentLoaded', injectButton);
 } else {
 	injectButton();
 }
@@ -31,12 +33,13 @@ window.addEventListener('click', injectButton);
 
 function injectButton(event) {
 	// Tato funkce se spustí při změně URL v historii prohlížeče
-	setTimeout(function () {
+	setTimeout(() => {
 		if (
 			document.querySelector('#productDetail') &&
 			document.querySelector('#productDetail h2') &&
-			!document.querySelector('.addToListBtn')
+			(!document.querySelector('.addToListBtn') || lastUrl != window.location.href)
 		) {
+			
 			let btn = document.createElement('button');
 			loadURLList((urlList) => {
 				if (Array.isArray(urlList)) {
@@ -69,5 +72,8 @@ function injectButton(event) {
 			});
 			document.querySelector('#productDetail')?.appendChild(btn);
 		}
-	}, 1000);
+
+		lastUrl = window.location.href;
+	}, 500);
+
 }

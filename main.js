@@ -1,5 +1,5 @@
 async function generateProduct(url, ix) {
-	if (url != null) {
+	if (url) {
 		await fetch(url)
 			.then((response) => response.text())
 			.then((data) => {
@@ -9,6 +9,7 @@ async function generateProduct(url, ix) {
 					data.split('<body>')[1],
 					'text/html'
 				);
+				dc = dc.querySelector("#productDetail");
 				if (dc.querySelector('h2') && dc.querySelector('.detailQuantity')) {
 					let priceInput = dc.querySelector('[data-test="product-price"');
 					if (priceInput) {
@@ -17,7 +18,7 @@ async function generateProduct(url, ix) {
 							priceInput.removeChild(priceInput.querySelector('span'));
 						}
 					}
-
+					let inSale = Boolean(priceInput.classList.contains("actionPrice"));
 					let nameInput = dc.querySelector('h2');
 					let brandInput = nameInput.querySelector('.iscxvd');
 					nameInput.querySelector('.iscxvd')?.remove();
@@ -43,8 +44,16 @@ async function generateProduct(url, ix) {
 					let productPrice = document.createElement('p');
 					productPrice.className = 'product-price';
 
-					if (priceInput)
-						productPrice.textContent = priceInput.textContent.trim();
+
+					if (priceInput){
+						if(inSale){
+							productPrice.classList.add("inSale");
+							let beforePrice = dc.querySelector('[data-test="product-in-sale-original"]').textContent;
+							productPrice.innerHTML = `${priceInput.textContent.trim()} <del>${beforePrice}</del>`;
+						}else{
+							productPrice.innerHTML = `${priceInput.textContent.trim()}`;
+						}
+					}
 					else productPrice.textContent = 'currently unavailable';
 					priceBox.appendChild(productPrice);
 
@@ -78,11 +87,8 @@ let productsEl = document.createElement('div');
 
 async function generateProducts(products, callback) {
 	let promises = products.map(async (url, ix) => {
-		if (url != 'VOID') {
 			await generateProduct(url, ix);
-		}
 	});
-
 	await Promise.all(promises);
 	callback();
 }
@@ -105,13 +111,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					return ixA - ixB;
 				});
 
-				console.log('sorted' + divs);
-
 				parentN.innerHTML = '';
+				if(divs.length > 0){
+					divs.forEach((div) => {
+						parentN.appendChild(div);
+					});
+				}else{
+					let msg = document.createElement("p");
+					msg.textContent = "No products on the list";
+					parentN.appendChild(msg);
+				}
 
-				divs.forEach((div) => {
-					parentN.appendChild(div);
-				});
 			});
 		}
 	});
