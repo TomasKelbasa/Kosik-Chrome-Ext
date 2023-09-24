@@ -142,7 +142,7 @@ h1 {
 	font-weight: 500;
 }
 
-footer {
+.footer {
 	font-family: RobotoMono;
 	font-size: 0.6rem;
 	font-weight: 300;
@@ -152,4 +152,20 @@ footer {
 	margin-bottom: 0;
 	border-top: solid var(--black) 1px;
 	padding: 0;
+}
+
+.footer .footer-cred a{
+
+	text-decoration: none;
+	transition: all 1s;
+	color: var(--black);
+	
+}
+
+.footer .footer-cred a:hover{
+
+	text-decoration: underline;
+	transition: all 1s;
+	color: var(--black);
+	
 }
