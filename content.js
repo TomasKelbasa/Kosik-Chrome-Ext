@@ -70,7 +70,15 @@ function injectButton(event) {
 					console.log(urlList);
 				});
 			});
-			document.querySelector('#productDetail')?.appendChild(btn);
+			let productDetail = document.querySelectorAll('#productDetail');
+			if(productDetail){
+					productDetail.forEach(element => {
+						if(element.querySelector('.addToListBtn')) element.removeChild(element.querySelector(".addToListBtn"));
+					});
+				if(productDetail.length == 1)productDetail[0].appendChild(btn);
+			}
+
+
 		}
 
 		lastUrl = window.location.href;
