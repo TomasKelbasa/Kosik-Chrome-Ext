@@ -3,10 +3,10 @@ async function generateProduct(url, ix) {
 		await fetch(url)
 			.then((response) => response.text())
 			.then((data) => {
-				
+				console.log(data.split('<body>')[1]);
 				//converts only body of fetched HTML to HTML
 				let dc = new DOMParser().parseFromString(
-					data.split('<body>')[1],
+					data.split('<main>')[1],
 					'text/html'
 				);
 				dc = dc.querySelector("#productDetail");
@@ -14,12 +14,12 @@ async function generateProduct(url, ix) {
 					let priceInput = dc.querySelector('[data-test="product-price"]');
 					let inSale = false;
 					if (priceInput) {
-						let priceInput = dc.querySelector('[data-test="product-price"]');
 						inSale = Boolean(priceInput.classList.contains("actionPrice"));
 						if (priceInput.querySelector('span') !== null) {
 							priceInput.removeChild(priceInput.querySelector('span'));
 						}
 					}
+
 					let nameInput = dc.querySelector('h2');
 					let brandInput = nameInput.querySelector('.iscxvd');
 					nameInput.querySelector('.iscxvd')?.remove();
@@ -43,7 +43,7 @@ async function generateProduct(url, ix) {
 					priceBox.classList.add('product-priceBox');
 
 					let productPrice = document.createElement('p');
-					productPrice.className = 'product-price';
+					productPrice.classList.add('product-price');
 
 
 					if (priceInput){
@@ -133,7 +133,7 @@ function saveURLList(urlList) {
 		if (chrome.runtime.lastError) {
 			console.error('Chyba při ukládání dat: ' + chrome.runtime.lastError);
 		} else {
-			console.log('Seznam URL adres byl uložen.');
+			console.log('Rohlik-Chrome-Ext: URL list has been saved');
 		}
 	});
 }
