@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
-	"name": "Rohlik.cz ceny",
-	"version": "1.0.1",
+	"name": "Rohlik.cz price tracker",
+	"version": "1.0.2",
 
 	"description": "Allows to track current prices of products on Rohlik.cz",
 	"action": {

@@ -1,64 +1,22 @@
+
 async function generateProduct(url, ix) {
-	if (url) {
-		await fetch(url)
-			.then((response) => response.text())
-			.then((data) => {
-				console.log(data.split('<body>')[1]);
-				//converts only body of fetched HTML to HTML
-				let dc = new DOMParser().parseFromString(
-					data.split('<main>')[1],
-					'text/html'
-				);
-				dc = dc.querySelector("#productDetail");
-				if (dc.querySelector('h2') && dc.querySelector('.detailQuantity')) {
-					let priceInput = dc.querySelector('[data-test="product-price"]');
-					let inSale = false;
-					if (priceInput) {
-						inSale = Boolean(priceInput.classList.contains("actionPrice"));
-						if (priceInput.querySelector('span') !== null) {
-							priceInput.removeChild(priceInput.querySelector('span'));
-						}
-					}
+	
+}
 
-					let nameInput = dc.querySelector('h2');
-					let brandInput = nameInput.querySelector('.iscxvd');
-					nameInput.querySelector('.iscxvd')?.remove();
+let productsEl = document.createElement('div');
 
-					let detailInput = dc.querySelector('.detailQuantity');
+async function generateProducts(products, callback) {
+	let promises = products.map(async (url, ix) => {
+			await generateProduct(url, ix);
+	});
+	await Promise.all(promises);
+	callback();
+}
 
-					let newDiv = document.createElement('div');
-					newDiv.classList.add('product-box');
-					newDiv.setAttribute('product-index', ix);
-
-					let productName = document.createElement('a');
-					productName.className = 'product-name';
-					productName.href = url;
-					productName.target = '_blank';
-					productName.textContent =
-						nameInput.textContent + ' - ' + detailInput?.textContent;
-
-					newDiv.appendChild(productName);
-
-					let priceBox = document.createElement('div');
-					priceBox.classList.add('product-priceBox');
-
-					let productPrice = document.createElement('p');
-					productPrice.classList.add('product-price');
-
-
-					if (priceInput){
-						if(inSale){
-							productPrice.classList.add("inSale");
-							let beforePrice = dc.querySelector('[data-test="product-in-sale-original"]').textContent;
-							productPrice.innerHTML = `${priceInput.textContent.trim()} <del>${beforePrice}</del>`;
-						}else{
-							productPrice.innerHTML = `${priceInput.textContent.trim()}`;
-						}
-					}
-					else productPrice.textContent = 'currently unavailable';
-					priceBox.appendChild(productPrice);
-
-					let removeButton = document.createElement('button');
+import fetchFromURL from "./rohlik_fetcher.js";
+function listBuilder(){
+	/*
+	let removeButton = document.createElement('button');
 					removeButton.classList.add('product-removeBtn');
 					removeButton.textContent = '-';
 					removeButton.addEventListener('click', (ab) => {
@@ -72,31 +30,18 @@ async function generateProduct(url, ix) {
 						if (elementToRemove) {
 							elementToRemove.remove();
 						}
-					});
-
-					priceBox.appendChild(removeButton);
-					newDiv.appendChild(priceBox);
-					productsEl.appendChild(newDiv);
-				} else {
-				}
-			})
-			.catch((error) => console.error(error));
-	}
-}
-
-let productsEl = document.createElement('div');
-
-async function generateProducts(products, callback) {
-	let promises = products.map(async (url, ix) => {
-			await generateProduct(url, ix);
+					});*/
+	fetchFromURL("https://www.rohlik.cz/1406203-miil-cerstve-mleko-polotucne-1-5-tuku").then((data) => {
+		console.log(data);
 	});
-	await Promise.all(promises);
-	callback();
+	fe
 }
+
 
 window.addEventListener('DOMContentLoaded', (event) => {
 	loadURLList((ul) => {
 		console.log('Rohlik-Chrome-Ext: Loaded URLs: ');
+		listBuilder();
 		console.log(ul);
 		if (Array.isArray(ul)) {
 			ul = ul.filter((el) => el != null && el != 'null' && el != 'X');
@@ -127,6 +72,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	});
 });
+
 
 function saveURLList(urlList) {
 	chrome.storage.sync.set({ myURLs: urlList }, function () {
