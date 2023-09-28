@@ -1,4 +1,4 @@
-
+import fetchFromURL from "./rohlik_fetcher.js";
 async function generateProduct(url, ix) {
 	
 }
@@ -13,7 +13,7 @@ async function generateProducts(products, callback) {
 	callback();
 }
 
-import fetchFromURL from "./rohlik_fetcher.js";
+
 function listBuilder(){
 	/*
 	let removeButton = document.createElement('button');
@@ -34,7 +34,7 @@ function listBuilder(){
 	fetchFromURL("https://www.rohlik.cz/1406203-miil-cerstve-mleko-polotucne-1-5-tuku").then((data) => {
 		console.log(data);
 	});
-	fe
+	
 }
 
 
