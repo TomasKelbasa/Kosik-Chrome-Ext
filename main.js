@@ -1,50 +1,38 @@
 import fetchFromURL from "./rohlik_fetcher.js";
 
 async function generateProduct(url, ix) {
-	await fetchFromURL(url).then((d) => {
-		console.log(d.name);
-
-		let product = document.createElement('div');
-		product.classList.add("product-box");
-		product.textContent = d.name;
-
-		let removeButton = document.createElement('button');
-		removeButton.classList.add('product-removeBtn');
-		removeButton.textContent = '-';
-		removeButton.addEventListener('click', (ab) => {
-			loadURLList((urlList) => {
-				urlList[ix] = 'X';
-				saveURLList(urlList);
-			});
-			document.querySelector(
-				`[product-index="${ix}"]`
-			)?.remove();
-			
-		});
-		return product;
+	let d;
+	await fetchFromURL(url).then((data) => {
+		d = data;
 	});
 
+	let product = document.createElement('div');
+	product.classList.add("product-box");
+	product.textContent = d.name;
 
-
-
-
+	let removeButton = document.createElement('button');
+	removeButton.classList.add('product-removeBtn');
+	removeButton.textContent = '-';
+	removeButton.addEventListener('click', (ab) => {
+		loadURLList((urlList) => {
+			urlList[ix] = 'X';
+			saveURLList(urlList);
+		});
+		document.querySelector(
+			`[product-index="${ix}"]`
+		)?.remove();
+		
+	});
+	return product;
 }
 
-let productsEl = document.createElement('div');
+async function generateProducts(products) {
 
-async function generateProducts(products, callback) {
-	let result = [];
-	for(let i = 0; i < products.length; i++){
-		result.push(await generateProduct(products[i], i));
-	}
-	return result;
-	/*
-	let promises = products.map(async (url, ix) => {
-			await generateProduct(url, ix);
+	let result = products.map((product, ix)=>{
+		return generateProduct(product, ix);
 	});
-	await Promise.all(promises);
-	callback();
-	*/
+	let resolved = await Promise.all(result);
+	return resolved;
 }
 
 
@@ -69,14 +57,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			saveURLList(ul);
 			generateProducts(ul).then((result)=> console.log(result));/*, async () => {
 				let parentN = document.querySelector('.prices');
-
-				let divs = Array.from(productsEl.children);
-
-				divs.sort((a, b) => {
-					let ixA = parseInt(a.getAttribute('product-index'));
-					let ixB = parseInt(b.getAttribute('product-index'));
-					return ixA - ixB;
-				});
 
 				parentN.innerHTML = '';
 				if(divs.length > 0){
