@@ -10,7 +10,7 @@ export default async function fetchFromURL(url) {
   let result = {};
   result.ok = false;
 
-  if (!url || !url.includes("https://www.rohlik.cz")) return result;
+  if (!url.includes("https://www.rohlik.cz")) return result;
 
   await fetch(url)
     .then((response) => response.text())

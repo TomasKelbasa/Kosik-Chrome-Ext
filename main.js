@@ -2,13 +2,7 @@ import fetchFromURL from "./rohlik_fetcher.js";
 
 async function generateProduct(url, ix) {
 	let d;
-	await fetchFromURL(url).then((data) => {
-		d = data;
-	});
-
-	let product = document.createElement('div');
-	product.classList.add("product-box");
-	product.textContent = d.name;
+	await fetchFromURL(url).then((data) => d = data);
 
 	let removeButton = document.createElement('button');
 	removeButton.classList.add('product-removeBtn');
@@ -23,6 +17,17 @@ async function generateProduct(url, ix) {
 		)?.remove();
 		
 	});
+
+	let product = document.createElement('div');
+	product.classList.add("product-box");
+	if(!d || !d.ok){
+		product.textContent = "Neplatný produkt";
+		product.appendChild(removeButton);
+		return product;
+	}
+	product.textContent = d.name;
+
+
 	return product;
 }
 
@@ -34,29 +39,26 @@ async function generateProducts(products) {
 	let resolved = await Promise.all(result);
 	return resolved;
 }
-
-
-function listBuilder(){
-	/*
-		fetchFromURL("https://www.rohlik.cz/1406203-miil-cerstve-mleko-polotucne-1-5-tuku").then((data) => {
-		console.log(data);
-	});
-*/
-
-	
-}
-
-
+//fetchFromURL("https://www.rohlik.cz/1376951-thomy-holandska-omacka").then((result) => console.log(result))
 window.addEventListener('DOMContentLoaded', (event) => {
 	loadURLList((ul) => {
+		
 		console.log('Rohlik-Chrome-Ext: Loaded URLs: ');
-		listBuilder();
 		console.log(ul);
+
 		if (Array.isArray(ul)) {
 			ul = ul.filter((el) => el != null && el != 'null' && el != 'X');
 			saveURLList(ul);
-			generateProducts(ul).then((result)=> console.log(result));/*, async () => {
-				let parentN = document.querySelector('.prices');
+			let parentN = document.querySelector('.prices');
+			generateProducts(ul).then((result)=> {
+				parentN.innerHTML = "";
+				if(result.length == 0) parentN.innerHTML = "No products on the list";
+
+				result.forEach(element => {
+					parentN.appendChild(element);
+				});
+			});/*, async () => {
+				
 
 				parentN.innerHTML = '';
 				if(divs.length > 0){
