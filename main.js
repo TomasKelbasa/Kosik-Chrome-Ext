@@ -3,32 +3,34 @@ import fetchFromURL from "./rohlik_fetcher.js";
 async function generateProduct(url, ix) {
 	let d;
 	await fetchFromURL(url).then((data) => d = data);
+	
 
-	let removeButton = document.createElement('button');
-	removeButton.classList.add('product-removeBtn');
-	removeButton.textContent = '-';
+	let product = document.createElement('div');
+	product.classList.add("product-box");
+	product.innerHTML = `
+	<p class="product-name">${d.name}</p>
+	<div class="product-priceBox">
+		<p class="product-price ${d.inSale ? "inSale" : ""}">${d.price ? d.price : "unaivailible"} ${d.beforePrice ? "<del>" + d.beforePrice + "</del>" : ""}</p>
+		<button class="product-removeBtn">-</button>
+	</div>
+	
+	`;
+	let removeButton = product.querySelector('.product-removeBtn');
 	removeButton.addEventListener('click', (ab) => {
 		loadURLList((urlList) => {
 			urlList[ix] = 'X';
 			saveURLList(urlList);
 		});
-		document.querySelector(
-			`[product-index="${ix}"]`
-		)?.remove();
-		
+		product.remove();
 	});
 
-	let product = document.createElement('div');
-	product.classList.add("product-box");
-	if(!d || !d.ok){
+	/*if(!d || !d.ok){
 		product.textContent = "Neplatný produkt";
 		product.appendChild(removeButton);
 		return product;
-	}
-	product.textContent = d.name;
+	}*/
 
-
-	return product;
+	return product; 
 }
 
 async function generateProducts(products) {
@@ -57,21 +59,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				result.forEach(element => {
 					parentN.appendChild(element);
 				});
-			});/*, async () => {
-				
-
-				parentN.innerHTML = '';
-				if(divs.length > 0){
-					divs.forEach((div) => {
-						parentN.appendChild(div);
-					});
-				}else{
-					let msg = document.createElement("p");
-					msg.textContent = "No products on the list";
-					parentN.appendChild(msg);
-				}
-				
-			});*/
+			});
 		}
 	});
 });
