@@ -8,7 +8,7 @@ async function generateProduct(url, ix) {
 	let product = document.createElement('div');
 	product.classList.add("product-box");
 	product.innerHTML = `
-	<p class="product-name">${d.name}</p>
+	<a href="${url}" target="_blank" class="product-name">${d.name}</a>
 	<div class="product-priceBox">
 		<p class="product-price ${d.inSale ? "inSale" : ""}">${d.price ? d.price : "unaivailible"} ${d.beforePrice ? "<del>" + d.beforePrice + "</del>" : ""}</p>
 		<button class="product-removeBtn">-</button>
