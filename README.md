@@ -7,6 +7,8 @@ Popup looks currently like this:
 
 <img src="https://github.com/TomasKelbasa/Rohlik-Chrome-Ext/assets/91247802/65319aee-fe30-45d0-a127-e0b13efc1f7a" width="300">
 
+In future I may add another websites like kosik.cz
+
 ## How to use it
 
 ### Adding new product
